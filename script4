@@ -1,9 +1,9 @@
-pipeline{
+pipeline {
   agent any
-    stages{
+    stages {
       stage('Display')
       {
-        steps{
+        steps {
         echo "Header - This stage is for displaying purpose"
               }
       }
@@ -11,6 +11,9 @@ pipeline{
       input {
       message "Can we proceed" ?
       ok "Yes"
+            }
+            steps{
+            echo "Inside the Input Box"
             }
       }
          }
