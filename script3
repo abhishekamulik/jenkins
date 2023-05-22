@@ -1,7 +1,11 @@
 pipeline {
 agent none {
 stages{
-steps
+stage1{
+}
+steps{
+echo 'Hello World'
+}
 }
 }
 }
