@@ -9,7 +9,7 @@ pipeline {
       }
       stage('Input'){
       input {
-      message "Can we proceed" ?
+      message "Can we proceed ?"
       ok "Yes"
             }
             steps{
