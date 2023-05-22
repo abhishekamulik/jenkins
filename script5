@@ -4,7 +4,7 @@ pipeline {
       parallel {
         stage ('Stage One') {
           steps {
-            echo "Me in Stage One'
+            echo 'Me in Stage One'
                 }
                            }
          stage ('Stage Two') {
