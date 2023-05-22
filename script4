@@ -1,0 +1,17 @@
+pipeline{
+  agent
+    stages{
+      stage('Display')
+      {
+        steps{
+        echo "Header - This stage is for displaying purpose"
+              }
+      }
+      stage('Input'){
+      input {
+      message "Can we proceed" ?
+      ok "Yes"
+            }
+      }
+         }
+}
