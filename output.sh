@@ -1,1 +1,1 @@
-ps -ef|grep 'jenkins' >> command.output
+ls -l >> command.output
