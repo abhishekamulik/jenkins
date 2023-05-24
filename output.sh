@@ -1,1 +1,1 @@
-ps-ef|grep 'jenkins' > command.output
+ps-ef|grep 'jenkins' >> command.output
