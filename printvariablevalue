@@ -1,0 +1,12 @@
+pipeline {
+    agent any
+       stages {
+        stage('Message') {
+        steps {
+                echo "Print build number - ${BUILD_NUMBER}"
+                echo "Current login Username - ${USER}"
+                echo "Support mail id - ${env.var_email}"
+               }
+        }
+    }
+}
