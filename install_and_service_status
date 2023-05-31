@@ -15,7 +15,7 @@ pipeline{
                     if(packagename.trim() == "Postgresql"){
                     //String result = sh (script: 'which psql', returnStdout: true).trim()
                     String result = sh (script: "sshpass -p node5 ssh node5@192.168.194.213 'which psql'", returnStdout: true).trim()
-                    //echo "${result}"
+                    echo "${result}"
                     if(result == "/usr/bin/psql"){
                         echo "Postgres is already installed on Node"
                        }else if(result == ""){
@@ -44,15 +44,11 @@ pipeline{
                 echo "User has selected - ${servicestate}"
                 sh "sshpass -p node5 ssh node5@192.168.194.213 'sudo systemctl start postgresql'"
                 sh "sshpass -p node5 ssh node5@192.168.194.213 'sudo systemctl status postgresql'" 
-
-                sh 'sudo systemctl status postgresql'
                 } else if (servicestate == 'Stop'){
                 echo "User has selected - ${servicestate}"
                 sh "sshpass -p node5 ssh node5@192.168.194.213 'sudo systemctl stop postgresql'"
                 sh "sshpass -p node5 ssh node5@192.168.194.213 'sudo systemctl status postgresql'" 
-
-                sh 'sudo systemctl status postgresql'
-                } 
+            } 
                     } catch (Exception e){
                // echo 'Exception occurred: ' + e.toString()
                     }
