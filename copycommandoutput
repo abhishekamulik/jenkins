@@ -1,0 +1,31 @@
+pipeline {
+    agent any
+        stages {
+        stage('Main') {
+            parallel {
+					stage('create directory') {
+						steps {
+						sh 'mkdir -p /home/jenkins/Abhishek'
+							}
+						}
+						stage('check directory') {
+						when {
+						expression {
+						return fileExists('/home/jenkins/Abhishek')
+							}
+						}
+						steps {
+						echo "Directory /home/jenkins/Abhishek found!"
+						sh 'ls >> command.output'
+						sh 'scp command.output /home/jenkins/Abhishek'
+							}
+						}
+                stage('Message') {
+                        steps {
+                            echo "The ${JOB_NAME} run on ${NODE_NAME}"
+                        }
+                    }
+                }
+            }
+        }
+    }
