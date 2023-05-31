@@ -1,0 +1,18 @@
+@Library('pipelinesharedlibrary') _
+
+pipeline {
+    agent any
+    stages {
+        stage("Display") {
+            steps {
+                script{
+                String loginUser = "${USER}"
+                String jobName= "${JOB_NAME}"
+                String emailAddress= "${var_email}"
+                display(loginUser,jobName,emailAddress) 
+               // sum(x,y)
+                }
+               }
+        }
+    }
+}
