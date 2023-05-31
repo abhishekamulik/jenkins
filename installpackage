@@ -1,0 +1,26 @@
+def install_postgresql() {
+    echo "Installing Postgresql"
+    sh "sshpass -p node5 ssh node5@192.168.33.213 'sudo -n apt-get install postgresql postgresql-contrib -y && exit 0'"
+}
+
+def start_postgresql(){
+    echo "Starting Postgresql"
+    sh "sshpass -p node5 ssh node5@192.168.33.213 'sudo systemctl status postgresql'" 
+}
+pipeline{
+    agent {label 'node4'}
+    stages{
+        stage("Install postgresql"){
+            agent {label 'node4'}
+            steps{
+                 install_postgresql()
+				}
+        }
+		stage("Start postgresql"){
+            agent {label 'node4'}
+            steps{
+                 start_postgresql()
+				}
+        }
+    }
+}
