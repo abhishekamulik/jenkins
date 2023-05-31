@@ -1,0 +1,37 @@
+def diplay_build_user(String name) {
+    echo "Inside display_build_user function"
+	echo "Build username: ${name}"
+	return 0
+	}
+def display_node_name(String nodename){
+    echo "Inside display_node_name function"
+	echo "Node name: ${nodename}"
+	return 0
+	}
+
+pipeline {
+    agent {label 'QA'}
+    stages{
+        stage("Env Build User"){
+            steps{
+                wrap([$class: 'BuildUser']) {
+                echo "Build User:-${env.BUILD_USER_ID}"
+                echo "Node Name:- ${NODE_NAME}"
+                display_node_name(NODE_NAME)
+                diplay_build_user(env.BUILD_USER)
+                }
+            }
+        }
+         stage("Env Node Name"){
+              agent {label 'node2'}
+            steps{
+                wrap([$class: 'BuildUser']) {
+                echo "Build User:-${env.BUILD_USER_ID}"
+                echo "Node Name:- ${NODE_NAME}"
+                display_node_name(NODE_NAME)
+                diplay_build_user(env.BUILD_USER)
+                }
+            }
+        }
+    }
+}
