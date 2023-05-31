@@ -1,0 +1,63 @@
+pipeline{
+    agent none
+    stages {
+        stage("Installation"){
+            agent {label 'node4'}
+          steps{
+              script{
+                  try{
+                   echo "Inside Installation Stage"
+                    def packagename = input message: 'Please enter the Package Name:',
+                    parameters: [string(defaultValue: '',
+                                      description: '',
+                                      name: 'packagename')]
+                    echo "User has entered package name as  - ${packagename}"  
+                    if(packagename.trim() == "Postgresql"){
+                    //String result = sh (script: 'which psql', returnStdout: true).trim()
+                    String result = sh (script: "sshpass -p node5 ssh node5@192.168.194.213 'which psql'", returnStdout: true).trim()
+                    //echo "${result}"
+                    if(result == "/usr/bin/psql"){
+                        echo "Postgres is already installed on Node"
+                       }else if(result == ""){
+                        echo " Postgres is not installed on Node"
+                        sh "sshpass -p node5 ssh node5@192.168.194.213 'sudo -n apt-get install postgresql postgresql-contrib -y && exit 0'"                    }
+                    
+                    }
+                  } catch (Exception e){
+                      echo 'Exception occurred: ' + e.toString()
+                  }
+                    
+              }
+        }  
+        }
+        stage("StartStopService"){
+            agent {label 'node4'}
+            steps{
+                script {
+                    try{
+				echo "Inside StartStopService"
+				def servicestate = input(id: 'servicestate', message: 'Please select the service state:',
+				parameters: [[$class: 'ChoiceParameterDefinition', defaultValue: 'Start', 
+                description:'Describing Service State', name:'servicestateChoice', choices: "Start\nStop"]
+             ])
+             if (servicestate == 'Start'){
+                echo "User has selected - ${servicestate}"
+                sh "sshpass -p node5 ssh node5@192.168.194.213 'sudo systemctl start postgresql'"
+                sh "sshpass -p node5 ssh node5@192.168.194.213 'sudo systemctl status postgresql'" 
+
+                sh 'sudo systemctl status postgresql'
+                } else if (servicestate == 'Stop'){
+                echo "User has selected - ${servicestate}"
+                sh "sshpass -p node5 ssh node5@192.168.194.213 'sudo systemctl stop postgresql'"
+                sh "sshpass -p node5 ssh node5@192.168.194.213 'sudo systemctl status postgresql'" 
+
+                sh 'sudo systemctl status postgresql'
+                } 
+                    } catch (Exception e){
+               // echo 'Exception occurred: ' + e.toString()
+                    }
+        }
+            }
+		}
+	}
+}
